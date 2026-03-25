@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero-section">
+    <div class="container-fluid">
+        <h1 class="display-4 fw-bold">Control de Plagas Profesional</h1>
+        <p class="lead">Expertos en fumigación y control de insectos. Protegemos tu hogar y negocio con soluciones efectivas y ecológicas.</p>
+        <div class="hero-buttons">
+            <a href="#productos" class="btn btn-primary btn-lg me-3" data-scroll="#productos">Ver Productos</a>
+            <a href="#servicios" class="btn btn-secondary btn-lg" data-scroll="#servicios">Nuestros Servicios</a>
+        </div>
+    </div>
+</section>
+
+<!-- PRODUCTOS DESTACADOS -->
+<section id="productos" class="py-5 bg-white">
+    <div class="container">
+        <h2 class="mb-4 fw-bold">Productos Destacados</h2>
+
+        <div class="row">
+        {% for p in productos %}
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card card-hover h-100">
+
+                {% with img=p.images.all|first %}
+                    {% if img %}
+                        <img src="{{ img.image.url }}" class="card-img-top img-fluid" alt="{{ img.alt_text }}" loading="lazy" width="300" height="200">
+                    {% else %}
+                        <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center text-white" style="height: 200px;">
+                            <span>Sin imagen</span>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <div class="card-body">
+                    <h5 class="card-title">{{ p.name }}</h5>
+                    <p class="card-text">${{ p.price|floatformat:2 }}</p>
+                    <a href="{% url 'products:product_detail' p.slug %}" class="btn btn-success">Ver más</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No hay productos disponibles.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- SERVICIOS DESTACADOS -->
+<section id="servicios" class="py-5 bg-white">
+    <div class="container">
+        <h2 class="mb-4 fw-bold">Servicios Principales</h2>
+
+        <div class="row">
+        {% for s in servicios %}
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="card card-hover h-100">
+                {% if s.image %}
+                    <img src="{{ s.image.url }}" class="card-img-top img-fluid" alt="{{ s.name }}" loading="lazy" width="300" height="200">
+                {% else %}
+                    <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center text-white" style="height: 200px;">
+                        <span>Sin imagen</span>
+                    </div>
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ s.name }}</h5>
+                    <p class="card-text">{{ s.description|truncatechars:80 }}</p>
+                    <a href="{% url 'services:service_detail' s.slug %}" class="btn btn-primary">Ver más</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No hay servicios disponibles.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- SERVICIOS COMPLEMENTARIOS (inspirado en la web de referencia, sin galería) -->
+<section id="servicios-todos" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="mb-4 fw-bold">Todos nuestros servicios</h2>
+        <p class="mb-4 text-muted">Brindamos soluciones integrales en control de plagas para hogares, comercios, industrias y espacios públicos.</p>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <div class="card card-hover h-100 service-card">
+                    <img src="https://picsum.photos/seed/pest-control-home/420/260" class="card-img-top" alt="Fumigación Residencial">
+                    <div class="card-body">
+                        <h5 class="card-title">Fumigación Residencial</h5>
+                        <p class="card-text">Tratamientos preventivos y correctivos contra cucarachas, roedores, hormigas y mosquitos.</p>
+                        <a href="https://wa.me/527535396749?text=Hola%20quiero%20cotizar%20el%20servicio%20Fumigaci%C3%B3n%20Residencial" target="_blank" rel="noopener" class="btn btn-success">Cotizar en WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-hover h-100 service-card">
+                    <img src="https://picsum.photos/seed/commercial-spray/420/260" class="card-img-top" alt="Fumigación Comercial">
+                    <div class="card-body">
+                        <h5 class="card-title">Fumigación Comercial</h5>
+                        <p class="card-text">Planes en locales comerciales y bodegas con protocolos de seguridad sanitaria.</p>
+                        <a href="https://wa.me/527535396749?text=Hola%20quiero%20cotizar%20el%20servicio%20Fumigaci%C3%B3n%20Comercial" target="_blank" rel="noopener" class="btn btn-success">Cotizar en WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-hover h-100 service-card">
+                    <img src="https://picsum.photos/seed/rat-extermination/420/260" class="card-img-top" alt="Control de Roedores">
+                    <div class="card-body">
+                        <h5 class="card-title">Control de Roedores</h5>
+                        <p class="card-text">Inspección, cebos, exclusión y mantenimiento para eliminar ratas y ratones.</p>
+                        <a href="https://wa.me/527535396749?text=Hola%20quiero%20cotizar%20el%20servicio%20Control%20de%20Roedores" target="_blank" rel="noopener" class="btn btn-success">Cotizar en WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-hover h-100 service-card">
+                    <img src="https://picsum.photos/seed/disinfection-cleaning/420/260" class="card-img-top" alt="Desinfección COVID-19 & H1N1">
+                    <div class="card-body">
+                        <h5 class="card-title">Desinfección COVID-19 & H1N1</h5>
+                        <p class="card-text">Limpieza profunda y sanitización con biocidas certificados para espacios abiertos y cerrados.</p>
+                        <a href="https://wa.me/527535396749?text=Hola%20quiero%20cotizar%20el%20servicio%20Desinfecci%C3%B3n%20COVID-19%20%26%20H1N1" target="_blank" rel="noopener" class="btn btn-success">Cotizar en WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-hover h-100 service-card">
+                    <img src="https://picsum.photos/seed/garden-pest-control/420/260" class="card-img-top" alt="Mantenimiento de Jardines y Áreas Verdes">
+                    <div class="card-body">
+                        <h5 class="card-title">Mantenimiento de Jardines y Áreas Verdes</h5>
+                        <p class="card-text">Control de plagas de plantas, pulgones, trips y hongos para áreas externas.</p>
+                        <a href="https://wa.me/527535396749?text=Hola%20quiero%20cotizar%20el%20servicio%20Mantenimiento%20de%20Jardines" target="_blank" rel="noopener" class="btn btn-success">Cotizar en WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-hover h-100 service-card">
+                    <img src="https://picsum.photos/seed/pest-inspector/420/260" class="card-img-top" alt="Asesoría técnica y monitoreo">
+                    <div class="card-body">
+                        <h5 class="card-title">Asesoría técnica y monitoreo</h5>
+                        <p class="card-text">Seguimiento continuo con reportes, recomendaciones y uso de productos ecoamigables.</p>
+                        <a href="https://wa.me/527535396749?text=Hola%20quiero%20cotizar%20el%20servicio%20Asesor%C3%ADa%20t%C3%A9cnica" target="_blank" rel="noopener" class="btn btn-success">Cotizar en WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PREGUNTAS FRECUENTES -->
+<section id="faq" class="py-5 bg-white">
+    <div class="container">
+        <h2 class="mb-2 fw-bold">Preguntas frecuentes</h2>
+        <p class="text-muted mb-4">Resolvemos tus dudas sobre nuestros servicios de fumigación y control de plagas</p>
+        <div class="accordion" id="faqAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading1">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapse1">
+                        <i class="bi bi-shield-check me-2" style="color: #2d7d46; font-size: 1.2rem;"></i>
+                        ¿Las fumigaciones son seguras para mascotas?
+                    </button>
+                </h2>
+                <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">Sí, usamos productos aprobados y brindamos instrucciones de retiro temporal; normalmente se puede volver al área en pocas horas.</div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading2">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                        <i class="bi bi-calendar-check me-2" style="color: #2d7d46; font-size: 1.2rem;"></i>
+                        ¿Con qué frecuencia debo realizar mantenimiento de control de plagas?
+                    </button>
+                </h2>
+                <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">Recomendamos visitas trimestrales en residencias y mensual en comercios con alta afluencia.</div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading3">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                        <i class="bi bi-hand-thumbs-up me-2" style="color: #2d7d46; font-size: 1.2rem;"></i>
+                        ¿Ofrecen garantía de servicio?
+                    </button>
+                </h2>
+                <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">Sí, cubrimos reinicios gratuitos según contrato y evaluaciones post-servicio fuera de temporada.</div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading4">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
+                        <i class="bi bi-leaf me-2" style="color: #2d7d46; font-size: 1.2rem;"></i>
+                        ¿Tienen productos orgánicos?
+                    </button>
+                </h2>
+                <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">Contamos con soluciones biodegradables y productos con bajo impacto ambiental para clientes con necesidades especiales.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BOTÓN FIJO DE WHATSAPP -->
+<a id="whatsapp-float" class="whatsapp-float" href="https://wa.me/527535396749?text=Hola%2C%20quiero%20cotizar%20un%20servicio%20de%20fumigaci%C3%B3n" target="_blank" rel="noopener">
+    <i class="bi bi-whatsapp"></i>
+    <span>WhatsApp</span>
+</a>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'core/js/home.js' %}"></script>
+{% endblock %}

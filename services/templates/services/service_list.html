@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'services/css/services.css' %}">
+{% endblock %}
+
+{% block title %}Servicios{% endblock %}
+{% block meta_description %}Catálogo de servicios de fumigación y control de plagas.{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Encabezado con Estilo -->
+    <div class="d-flex align-items-center justify-content-center mb-4 border-bottom pb-3">
+        <div class="text-center">
+            <h1 class="h2 fw-bold text-dark mb-0">Catálogo de Servicios</h1>
+            <p class="text-muted small mb-0">Soluciones profesionales para el control de plagas.</p>
+        </div>
+    </div>
+
+    {% if services %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        {% for service in services %}
+        <div class="col">
+            <div class="card h-100 border-0 shadow-sm hover-lift transition-all">
+                <a href="{% url 'services:service_detail' slug=service.slug %}" class="text-decoration-none text-reset">
+                    <!-- Contenedor de Imagen con Efecto -->
+                    <div class="ratio ratio-1x1 overflow-hidden rounded-top">
+                        <img src="{{ service.image.url }}" class="card-img-top object-fit-cover transition-img" alt="{{ service.name }}" loading="lazy">
+                    </div>
+
+                    <div class="card-body p-3">
+                        <small class="text-primary fw-bold text-uppercase" style="font-size: 0.7rem;">
+                            {{ service.service_type }}
+                        </small>
+                        <h2 class="h6 card-title fw-bold my-1 text-truncate-2" style="height: 2.5rem;">
+                            {{ service.name }}
+                        </h2>
+
+                        <div class="d-flex align-items-center justify-content-between mt-3">
+                            <span class="h5 fw-bold text-dark mb-0">${{ service.price }}</span>
+                            <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle">Disponible</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Paginación Mejorada -->
+    {% if is_paginated %}
+    <nav class="mt-5" aria-label="Paginación de servicios">
+        <ul class="pagination justify-content-center">
+            <li class="page-item {% if not page_obj.has_previous %}disabled{% endif %}">
+                <a class="page-link shadow-sm border-0 mx-1 rounded" href="{% if page_obj.has_previous %}{% url 'services:service_list' %}?page={{ page_obj.previous_page_number }}{% else %}#{% endif %}">
+                    &lsaquo;
+                </a>
+            </li>
+            {% for num in paginator.page_range %}
+            <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                <a class="page-link shadow-sm border-0 mx-1 rounded" href="{% url 'services:service_list' %}?page={{ num }}">{{ num }}</a>
+            </li>
+            {% endfor %}
+            <li class="page-item {% if not page_obj.has_next %}disabled{% endif %}">
+                <a class="page-link shadow-sm border-0 mx-1 rounded" href="{% if page_obj.has_next %}{% url 'services:service_list' %}?page={{ page_obj.next_page_number }}{% else %}#{% endif %}">
+                    &rsaquo;
+                </a>
+            </li>
+        </ul>
+    </nav>
+    {% endif %}
+
+    {% else %}
+    <div class="text-center py-5">
+        <i class="bi bi-tools text-muted display-1"></i>
+        <p class="mt-3 text-muted">Aún no cuenta con servicios disponibles.</p>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

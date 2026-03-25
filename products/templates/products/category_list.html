@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Categorías{% endblock %}
+{% block meta_description %}Explora nuestras categorías de productos de control de plagas.{% endblock %}
+{% block content %}
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h1 class="h3 mb-0">Categorías</h1>
+    <div>
+      <a href="{% url 'products:product_list' %}" class="btn btn-outline-secondary btn-sm">Ver productos</a>
+    </div>
+  </div>
+
+  {% if categories %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+      {% for cat in categories %}
+        <div class="col">
+          <div class="card h-100 p-3 shadow-sm">
+            <div class="d-flex align-items-start justify-content-between">
+              <div>
+                <h2 class="h6 mb-1"><a class="stretched-link" href="{% url 'products:category_detail' slug=cat.slug %}">{{ cat.name }}</a></h2>
+                <div class="text-muted small">{{ cat.product_count }} producto{% if cat.product_count != 1 %}s{% endif %}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-secondary">No hay categorías para mostrar.</div>
+  {% endif %}
+{% endblock %}

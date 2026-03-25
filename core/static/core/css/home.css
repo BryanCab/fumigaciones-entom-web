@@ -1,0 +1,315 @@
+/* ============================
+   HOME.CSS — Tema Fumigación
+   ============================ */
+
+/* Colores principales */
+:root {
+    --color-primary: #2d7d46;      /* Verde profesional */
+    --color-dark: #1a1a1a;
+    --color-light: #f8f9fa;
+}
+
+/* Hero */
+.hero-section {
+    background: linear-gradient(
+        135deg,
+        #1a1a1a 0%,
+        #2d7d46 50%,
+        #1a1a1a 100%
+    );
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* mantener body neutro para que las secciones siguientes queden claras */
+body, html {
+    background: #fff;
+    overflow-x: hidden;
+}
+
+/* eliminar línea blanca visible entre hero y productos */
+.hero-section {
+    margin-bottom: -1px;
+    box-shadow: inset 0 -8px 18px rgba(0, 0, 0, 0.5);
+}
+
+.hero-section h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    animation: slideInLeft 1s ease-out;
+}
+
+.hero-section p {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+    animation: slideInRight 1s ease-out 0.5s both;
+}
+
+.hero-buttons {
+    animation: fadeInUp 1s ease-out 1s both;
+}
+
+@keyframes slideInLeft {
+    from { transform: translateX(-100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* Cards modernas */
+.card-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transform: translateY(0); /* restablecer para animaciones */
+}
+
+.card-hover:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+}
+
+.card-body {
+    background: linear-gradient(135deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.8) 100%);
+    backdrop-filter: blur(8px);
+}
+
+/* Imágenes fijas y responsivas */
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+
+.card-hover:hover .card-img-top {
+    transform: scale(1.1);
+}
+
+/* Secciones de productos y servicios */
+#productos {
+    background: #fff;
+    padding: 80px 0;
+    position: relative;
+}
+
+#servicios {
+    background: #fff;
+    padding: 80px 0;
+    position: relative;
+}
+
+#about {
+    background: #fff;
+    padding: 80px 0;
+    position: relative;
+}
+
+#productos::before, #servicios::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M0,50 Q25,25 50,50 T100,50 V100 H0 Z" fill="rgba(255,255,255,0.1)"/></svg>') no-repeat center;
+    background-size: cover;
+    pointer-events: none;
+}
+
+/* Animaciones para secciones */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#productos, #servicios {
+    animation: fadeInUp 1s ease-out;
+}
+
+/* Botones modernos */
+.btn {
+    border-radius: 25px;
+    padding: 10px 30px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    border: none;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+/* Secciones nuevas y skill cards */
+#servicios-todos, #faq {
+    animation: fadeInUp 1s ease-out;
+}
+
+.service-card {
+    border-radius: 18px;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    background: #fff;
+    border: 1px solid rgba(45,125,70,0.15);
+}
+.service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 36px rgba(0,0,0,0.12);
+}
+
+#faq .accordion-button {
+    border-radius: 12px;
+    border: 2px solid #2d7d46;
+    color: #1a1a1a;
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+    font-weight: 600;
+    font-size: 1.05rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(45,125,70,0.1);
+    position: relative;
+    padding: 16px 20px;
+}
+
+#faq .accordion-button:hover {
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    border-color: #1b5e20;
+    box-shadow: 0 6px 16px rgba(45,125,70,0.25);
+    transform: translateX(4px);
+}
+
+#faq .accordion-button::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%232d7d46' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    transition: transform 0.4s ease;
+}
+
+#faq .accordion-button:not(.collapsed)::after {
+    transform: rotate(180deg);
+}
+
+#faq .accordion-button:not(.collapsed) {
+    background: linear-gradient(135deg, #4caf50 0%, #2d7d46 100%);
+    color: #fff;
+    border-color: #1b5e20;
+    box-shadow: 0 8px 20px rgba(45,125,70,0.3);
+}
+
+#faq .accordion-item {
+    border: none;
+    margin-bottom: 12px;
+    transition: all 0.3s ease;
+}
+
+#faq .accordion-item:hover {
+    transform: translateY(-2px);
+}
+
+#faq .accordion-body {
+    background: linear-gradient(135deg, #f0fdf4 0%, #e8f5e9 100%);
+    border: 1px solid rgba(45,125,70,0.2);
+    border-top: 3px solid #2d7d46;
+    border-radius: 0 0 12px 12px;
+    color: #2d5a3d;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    padding: 20px;
+    font-weight: 500;
+}
+
+#whatsapp-float {
+    position: fixed;
+    bottom: 26px;
+    right: 22px;
+    z-index: 1100;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #25d366;
+    color: #fff;
+    border-radius: 50px;
+    font-weight: 700;
+    padding: 12px 16px;
+    box-shadow: 0 5px 16px rgba(0,0,0,0.3);
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#whatsapp-float:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+#whatsapp-float i {
+    font-size: 1.25rem;
+}
+
+#whatsapp-float span {
+    display: inline-block;
+}
+
+@media (max-width: 768px) {
+    #whatsapp-float { right: 12px; bottom: 14px; padding: 10px 12px; }
+}
+
+.service-card, .card-hover {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.service-card.in-view, .card-hover.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 18px rgba(0,0,0,0.2);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--color-primary), #4caf50);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+}

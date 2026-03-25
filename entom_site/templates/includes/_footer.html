@@ -1,0 +1,43 @@
+{% load static %}
+<footer class="mt-auto border-top" style="background: linear-gradient(180deg, #f8fff9 0%, #eef9f1 100%);">
+  <div class="container py-4 py-lg-5">
+    <div class="row g-4 align-items-start">
+      <div class="col-lg-5 col-md-6">
+        <div class="d-inline-flex align-items-center p-2 rounded-3 bg-white shadow-sm mb-3" style="border: 1px solid #d9e8de;">
+          <img src="{% static 'core/images/logo.png' %}" alt="Fumigaciones Entom" height="50">
+        </div>
+        <h5 class="mb-2 fw-bold">Fumigaciones Entom</h5>
+        <p class="text-muted mb-0">Servicio profesional en control de plagas, sanitización y prevención para hogares, comercios e industria.</p>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <h6 class="text-uppercase fw-bold mb-3" style="letter-spacing: .04em;">Contacto</h6>
+        <p class="mb-2">
+          <i class="bi bi-whatsapp me-2 text-success"></i>
+          <a class="text-decoration-none" href="https://wa.me/527535396749" target="_blank" rel="noopener">+52 753-539-6749</a>
+        </p>
+        <p class="mb-2">
+          <i class="bi bi-telephone me-2 text-success"></i>
+          <a class="text-decoration-none" href="tel:+527535396749">7535396749</a>
+        </p>
+        <p class="mb-0">
+          <i class="bi bi-envelope me-2 text-success"></i>
+          <a class="text-decoration-none" href="mailto:fumigacionesentom@gmail.com">fumigacionesentom@gmail.com</a>
+        </p>
+      </div>
+
+      <div class="col-lg-3 col-md-12">
+        <h6 class="text-uppercase fw-bold mb-3" style="letter-spacing: .04em;">Atencion</h6>
+        <p class="mb-1 text-muted">Lun a Vie 08:00 - 18:00</p>
+        <p class="mb-0 text-muted">Sab 09:00 - 13:00</p>
+      </div>
+    </div>
+
+    <hr class="my-4" style="border-color: #d7e8dc;">
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+      <p class="small text-muted mb-0">© {% now 'Y' %} Fumigaciones Entom. Todos los derechos reservados.</p>
+      <a class="small text-decoration-none" href="https://wa.me/527535396749" target="_blank" rel="noopener">Atencion inmediata por WhatsApp</a>
+    </div>
+  </div>
+</footer>
