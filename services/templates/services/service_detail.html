@@ -2,6 +2,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}{{ service.name }}{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'services/css/services.css' %}">
+{% endblock %}
 {% block meta %}
 <meta name="description" content="{{ service.description|truncatewords:25 }}">
 <meta property="og:title" content="{{ service.name }}">
@@ -9,35 +12,126 @@
 <meta property="og:image" content="{{ service.image.url }}">
 {% endblock %}
 {% block content %}
-<div class="container py-5 fade-in">
-    <div class="row g-4">
-        <div class="col-lg-6">
-            <img src="{{ service.image.url }}" class="img-fluid rounded shadow" alt="{{ service.name }}">
-        </div>
-        <div class="col-lg-6">
-            <h1 class="fw-bold">{{ service.name }}</h1>
-            <p><strong>Tipo:</strong> {{ service.get_service_type_display }}</p>
-            <p><strong>Método:</strong> {{ service.get_method_display }}</p>
-            <p><strong>Tiempo estimado:</strong> {{ service.estimated_time }}</p>
-            <h3 class="text-success fw-bold mt-3">$ {{ service.price }}</h3>
-            <p class="mt-3">{{ service.description }}</p>
+<div class="sd-wrapper">
 
-            <a target="_blank" class="btn btn-success btn-lg w-100 mt-4"
-               href="https://wa.me/527535396749?text=Hola,%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20servicio%20{{ service.name }}">
-                Solicitar por WhatsApp
-            </a>
+  <!-- ── HERO ROW ── -->
+  <div class="row g-0 sd-hero-row align-items-stretch mb-5">
+
+    <!-- Imagen -->
+    <div class="col-lg-5">
+      {% if service.image %}
+        <div class="sd-img-wrap">
+          <img src="{{ service.image.url }}" class="sd-hero-img" alt="{{ service.name }}">
+          <div class="sd-img-overlay"></div>
         </div>
+      {% else %}
+        <div class="sd-img-placeholder">
+          <i class="bi bi-tools"></i>
+        </div>
+      {% endif %}
     </div>
 
-    <div class="mt-5">
-        <h3>Materiales utilizados</h3>
-        <p>{{ service.materials_description }}</p>
+    <!-- Panel de info -->
+    <div class="col-lg-7">
+      <div class="sd-info-panel">
 
-        <h3>Beneficios</h3>
-        <p>{{ service.benefits }}</p>
+        <!-- Badges superiores -->
+        <div class="sd-badges-row">
+          <span class="sd-badge sd-badge-type">
+            <i class="bi bi-shield-check"></i> {{ service.get_service_type_display }}
+          </span>
+          <span class="sd-badge sd-badge-method">
+            <i class="bi bi-gear-fill"></i> {{ service.get_method_display }}
+          </span>
+          {% if service.estimated_time %}
+          <span class="sd-badge sd-badge-time">
+            <i class="bi bi-clock-fill"></i> {{ service.estimated_time }}
+          </span>
+          {% endif %}
+        </div>
 
-        <h3>Recomendado para</h3>
-        <p>{{ service.recommended_for }}</p>
+        <h1 class="sd-title">{{ service.name }}</h1>
+
+        <!-- Precio destacado -->
+        <div class="sd-price-box">
+          <span class="sd-price-label">Precio desde</span>
+          <span class="sd-price">${{ service.price|floatformat:2 }}</span>
+        </div>
+
+        <!-- Descripción -->
+        {% if service.description %}
+        <div class="sd-section sd-section-desc">
+          <div class="sd-section-header">
+            <span class="sd-section-dot sd-dot-blue"></span>
+            <span class="sd-section-title">¿En qué consiste?</span>
+          </div>
+          <p class="sd-section-text">{{ service.description }}</p>
+        </div>
+        {% endif %}
+
+        <!-- CTA -->
+        <div class="sd-cta-row">
+          <a target="_blank" rel="noopener" class="btn sd-btn-wa"
+             href="https://wa.me/527535396749?text=Hola,%20quiero%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20servicio%20{{ service.name|urlencode }}">
+            <i class="bi bi-whatsapp"></i> Solicitar por WhatsApp
+          </a>
+          <a href="{% url 'services:service_list' %}" class="btn sd-btn-back">
+            <i class="bi bi-arrow-left"></i> Ver servicios
+          </a>
+        </div>
+
+      </div>
     </div>
+  </div>
+
+  <!-- ── SECCIONES DE DETALLE ── -->
+  {% if service.materials_description or service.benefits or service.recommended_for %}
+  <div class="sd-detail-grid">
+
+    {% if service.benefits %}
+    <div class="sd-detail-card sd-card-green">
+      <div class="sd-card-header">
+        <div class="sd-card-icon-wrap">
+          <i class="bi bi-patch-check-fill"></i>
+        </div>
+        <h3 class="sd-card-title">Beneficios</h3>
+      </div>
+      <div class="sd-card-body">
+        {{ service.benefits|linebreaksbr }}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if service.materials_description %}
+    <div class="sd-detail-card sd-card-blue">
+      <div class="sd-card-header">
+        <div class="sd-card-icon-wrap">
+          <i class="bi bi-droplet-half"></i>
+        </div>
+        <h3 class="sd-card-title">Materiales utilizados</h3>
+      </div>
+      <div class="sd-card-body">
+        {{ service.materials_description|linebreaksbr }}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if service.recommended_for %}
+    <div class="sd-detail-card sd-card-amber">
+      <div class="sd-card-header">
+        <div class="sd-card-icon-wrap">
+          <i class="bi bi-people-fill"></i>
+        </div>
+        <h3 class="sd-card-title">Recomendado para</h3>
+      </div>
+      <div class="sd-card-body">
+        {{ service.recommended_for|linebreaksbr }}
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+  {% endif %}
+
 </div>
 {% endblock %}

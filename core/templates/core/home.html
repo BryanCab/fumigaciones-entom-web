@@ -13,8 +13,8 @@
         <h1 class="display-4 fw-bold">Control de Plagas Profesional</h1>
         <p class="lead">Expertos en fumigación y control de insectos. Protegemos tu hogar y negocio con soluciones efectivas y ecológicas.</p>
         <div class="hero-buttons">
-            <a href="#productos" class="btn btn-primary btn-lg me-3" data-scroll="#productos">Ver Productos</a>
-            <a href="#servicios" class="btn btn-secondary btn-lg" data-scroll="#servicios">Nuestros Servicios</a>
+            <a href="#productos" class="btn btn-primary" data-scroll="#productos">Ver Productos</a>
+            <a href="#servicios" class="btn btn-secondary" data-scroll="#servicios">Nuestros Servicios</a>
         </div>
     </div>
 </section>
@@ -24,26 +24,39 @@
     <div class="container">
         <h2 class="mb-4 fw-bold">Productos Destacados</h2>
 
-        <div class="row">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
         {% for p in productos %}
-        <div class="col-lg-3 col-md-6 mb-4">
-            <div class="card card-hover h-100">
-
-                {% with img=p.images.all|first %}
-                    {% if img %}
-                        <img src="{{ img.image.url }}" class="card-img-top img-fluid" alt="{{ img.alt_text }}" loading="lazy" width="300" height="200">
-                    {% else %}
-                        <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center text-white" style="height: 200px;">
-                            <span>Sin imagen</span>
+        <div class="col">
+            <div class="card h-100 border-0 shadow-sm card-hover">
+                <a href="{% url 'products:product_detail' p.slug %}" class="text-decoration-none text-reset">
+                    <div class="ratio ratio-1x1 overflow-hidden rounded-top">
+                        {% with img=p.main_image %}
+                        {% if img %}
+                        <img src="{{ img.image.url }}" class="card-img-top object-fit-cover" alt="{{ img.alt_text|default:p.name }}" loading="lazy">
+                        {% else %}
+                        <div class="bg-light d-flex align-items-center justify-content-center">
+                            <i class="bi bi-image text-muted h1"></i>
                         </div>
-                    {% endif %}
-                {% endwith %}
-
-                <div class="card-body">
-                    <h5 class="card-title">{{ p.name }}</h5>
-                    <p class="card-text">${{ p.price|floatformat:2 }}</p>
-                    <a href="{% url 'products:product_detail' p.slug %}" class="btn btn-success">Ver más</a>
-                </div>
+                        {% endif %}
+                        {% endwith %}
+                    </div>
+                    <div class="card-body p-3 d-flex flex-column">
+                        <small class="text-primary fw-bold text-uppercase" style="font-size: 0.7rem;">
+                            {{ p.category.name }}
+                        </small>
+                        <h2 class="h6 card-title fw-bold my-1 text-truncate-2" style="height: 2.5rem;">
+                            {{ p.name }}
+                        </h2>
+                        <div class="d-flex align-items-center justify-content-between mt-3 mt-auto">
+                            <span class="card-price mb-0">${{ p.price|floatformat:2 }}</span>
+                            {% if p.stock > 0 %}
+                            <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle">Disponible</span>
+                            {% else %}
+                            <span class="badge rounded-pill bg-light text-muted border">Agotado</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
             </div>
         </div>
         {% empty %}
@@ -68,10 +81,10 @@
                         <span>Sin imagen</span>
                     </div>
                 {% endif %}
-                <div class="card-body">
+                <div class="card-body d-flex flex-column">
                     <h5 class="card-title">{{ s.name }}</h5>
                     <p class="card-text">{{ s.description|truncatechars:80 }}</p>
-                    <a href="{% url 'services:service_detail' s.slug %}" class="btn btn-primary">Ver más</a>
+                    <a href="{% url 'services:service_detail' s.slug %}" class="btn btn-primary mt-auto align-self-start">Ver más</a>
                 </div>
             </div>
         </div>
