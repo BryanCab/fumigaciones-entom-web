@@ -40,6 +40,10 @@ if not SECRET_KEY:
 # Hosts permitidos: en Render agrega tu dominio .onrender.com y el dominio final.
 ALLOWED_HOSTS = [host.strip() for host in get_env("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",") if host.strip()]
 
+# Dominio de producción siempre permitido (se añade vía variable de entorno en Render)
+# ALLOWED_HOSTS en Render debe contener:
+# fumigacionesentom.com,www.fumigacionesentom.com,fumigaciones-entom-web.onrender.com
+
 
 # Application definition
 
