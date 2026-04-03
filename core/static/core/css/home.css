@@ -168,8 +168,17 @@ body, html {
     backdrop-filter: none;
 }
 
-/* Imágenes fijas y responsivas */
-.card-img-top {
+/* Imagenes de destacados: llenar por completo el contenedor ratio */
+#productos .ratio .card-img-top {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+/* Imagenes de servicios: altura fija para mantener consistencia */
+#servicios .card-img-top,
+#servicios-todos .card-img-top {
     height: 200px;
     object-fit: cover;
     width: 100%;
