@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "cloudinary_storage",
     "django.contrib.staticfiles",
+    "cloudinary",
     "products",
     "services",
     "core",
@@ -150,4 +152,13 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # WhiteNoise: comprime y versiona estáticos automáticamente en producción
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dtf8myanf',
+    'API_KEY': '416793354151527',
+    'API_SECRET': 'W6MQhnXJRMxjM6s3wqUKmz7C38g'
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
