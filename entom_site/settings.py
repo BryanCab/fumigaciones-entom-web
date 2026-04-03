@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 import os
 import dj_database_url
 from pathlib import Path
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,14 +22,23 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
-# Lee la clave secreta desde la variable de entorno (obligatoria en producción)
-SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-)9$u$6@flx%rlcp6f)5rln1v)nljfr&@58#^jsp63$yt1_70^8")
+
+def get_env(name, default=None, required=False):
+    value = os.environ.get(name, default)
+    if required and (value is None or str(value).strip() == ""):
+        raise ImproperlyConfigured(f"Falta la variable de entorno requerida: {name}")
+    return value
 
 # En producción: DEBUG=False. Render pone la variable DEBUG=False en el entorno.
-DEBUG = os.environ.get("DEBUG", "True") == "True"
+DEBUG = get_env("DEBUG", "True") == "True"
+
+# SECRET_KEY solo puede usar fallback en desarrollo local.
+SECRET_KEY = get_env("SECRET_KEY", required=not DEBUG)
+if not SECRET_KEY:
+    SECRET_KEY = "dev-only-insecure-secret-key"
 
 # Hosts permitidos: en Render agrega tu dominio .onrender.com y el dominio final.
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+ALLOWED_HOSTS = [host.strip() for host in get_env("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",") if host.strip()]
 
 
 # Application definition
@@ -133,10 +143,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 
 # Configuración para archivos multimedia (fotos de productos)
-MEDIA_URL = "media/"
+MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 
@@ -150,15 +160,38 @@ STATICFILES_DIRS = [
 # (normalmente fuera del repositorio o en una ruta servida por Nginx/Apache)
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# WhiteNoise: comprime y versiona estáticos automáticamente en producción
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# Django 6 usa STORAGES en lugar de DEFAULT_FILE_STORAGE / STATICFILES_STORAGE.
+# Media va a Cloudinary en producción. Si las credenciales no existen y DEBUG=True,
+# Django usa almacenamiento local para no exponer secretos en el repositorio.
+cloud_name = get_env("CLOUDINARY_CLOUD_NAME")
+cloud_api_key = get_env("CLOUDINARY_API_KEY")
+cloud_api_secret = get_env("CLOUDINARY_API_SECRET")
 
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dtf8myanf',
-    'API_KEY': '416793354151527',
-    'API_SECRET': 'W6MQhnXJRMxjM6s3wqUKmz7C38g'
+has_cloudinary_credentials = all([cloud_name, cloud_api_key, cloud_api_secret])
+
+if not DEBUG and not has_cloudinary_credentials:
+    raise ImproperlyConfigured(
+        "Cloudinary requiere CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY y CLOUDINARY_API_SECRET en producción."
+    )
+
+STORAGES = {
+    "default": {
+        "BACKEND": (
+            "cloudinary_storage.storage.MediaCloudinaryStorage"
+            if has_cloudinary_credentials
+            else "django.core.files.storage.FileSystemStorage"
+        ),
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
 }
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+if has_cloudinary_credentials:
+    CLOUDINARY_STORAGE = {
+        "CLOUD_NAME": cloud_name,
+        "API_KEY": cloud_api_key,
+        "API_SECRET": cloud_api_secret,
+    }
 
 
