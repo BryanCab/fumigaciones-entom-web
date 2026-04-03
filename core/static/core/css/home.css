@@ -162,6 +162,12 @@ body, html {
     backdrop-filter: blur(8px);
 }
 
+/* En destacados usamos el mismo look de /productos (sin glassmorphism) */
+#productos .card-body {
+    background: #fff;
+    backdrop-filter: none;
+}
+
 /* Imágenes fijas y responsivas */
 .card-img-top {
     height: 200px;
@@ -170,7 +176,8 @@ body, html {
     transition: transform 0.3s ease;
 }
 
-.card-hover:hover .card-img-top {
+#servicios .card-hover:hover .card-img-top,
+#servicios-todos .card-hover:hover .card-img-top {
     transform: scale(1.1);
 }
 

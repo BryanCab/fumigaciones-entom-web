@@ -3,6 +3,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'core/css/home.css' %}">
+<link rel="stylesheet" href="{% static 'products/css/products.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -27,12 +28,12 @@
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
         {% for p in productos %}
         <div class="col">
-            <div class="card h-100 border-0 shadow-sm card-hover">
+            <div class="card h-100 border-0 shadow-sm hover-lift transition-all">
                 <a href="{% url 'products:product_detail' p.slug %}" class="text-decoration-none text-reset">
                     <div class="ratio ratio-1x1 overflow-hidden rounded-top">
                         {% with img=p.main_image %}
                         {% if img %}
-                        <img src="{{ img.image.url }}" class="card-img-top object-fit-cover" alt="{{ img.alt_text|default:p.name }}" loading="lazy">
+                        <img src="{{ img.image.url }}" class="card-img-top object-fit-cover transition-img" alt="{{ img.alt_text|default:p.name }}" loading="lazy">
                         {% else %}
                         <div class="bg-light d-flex align-items-center justify-content-center">
                             <i class="bi bi-image text-muted h1"></i>
@@ -40,14 +41,14 @@
                         {% endif %}
                         {% endwith %}
                     </div>
-                    <div class="card-body p-3 d-flex flex-column">
+                    <div class="card-body px-3 pt-2 pb-3">
                         <small class="text-primary fw-bold text-uppercase" style="font-size: 0.7rem;">
                             {{ p.category.name }}
                         </small>
-                        <h2 class="h6 card-title fw-bold my-1 text-truncate-2" style="height: 2.5rem;">
+                        <h2 class="h6 card-title fw-bold mt-1 mb-1 text-truncate-2" style="min-height: 2.4rem;">
                             {{ p.name }}
                         </h2>
-                        <div class="d-flex align-items-center justify-content-between mt-3 mt-auto">
+                        <div class="d-flex align-items-center justify-content-between mt-auto">
                             <span class="card-price mb-0">${{ p.price|floatformat:2 }}</span>
                             {% if p.stock > 0 %}
                             <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle">Disponible</span>

@@ -294,3 +294,39 @@
   padding: .25rem .5rem;
   border-radius: .25rem;
 }
+
+/* === Category Cards === */
+.category-card {
+    border-radius: 16px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 4px solid transparent;
+}
+
+.category-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(45, 125, 70, 0.15) !important;
+    border-left-color: #2d7d46;
+}
+
+.category-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.category-icon-wrapper i {
+    font-size: 1.3rem;
+    color: #2d7d46;
+}
+
+.category-card:hover .category-icon-wrapper {
+    background: linear-gradient(135deg, #2d7d46, #4caf50);
+}
+
+.category-card:hover .category-icon-wrapper i {
+    color: #fff;
+}

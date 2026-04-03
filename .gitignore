@@ -24,6 +24,9 @@ venv/
 .venv/
 env/
 
+# Copilot skills (local tooling, no subir al repo)
+.agents/
+
 ### Django.Python Stack ###
 # Byte-compiled / optimized / DLL files
 *.py[cod]
