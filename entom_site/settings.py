@@ -40,6 +40,9 @@ if not SECRET_KEY:
 # Hosts permitidos: en Render agrega tu dominio .onrender.com y el dominio final.
 ALLOWED_HOSTS = [host.strip() for host in get_env("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",") if host.strip()]
 
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
+
 # Dominio de producción siempre permitido (se añade vía variable de entorno en Render)
 # ALLOWED_HOSTS en Render debe contener:
 # fumigacionesentom.com,www.fumigacionesentom.com,fumigaciones-entom-web.onrender.com
@@ -163,6 +166,9 @@ STATICFILES_DIRS = [
 # Carpeta donde 'collectstatic' colocará todos los estáticos para producción
 # (normalmente fuera del repositorio o en una ruta servida por Nginx/Apache)
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# Configuración para cache busting
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
 
 # Django 6 usa STORAGES en lugar de DEFAULT_FILE_STORAGE / STATICFILES_STORAGE.
 # Media va a Cloudinary en producción. Si las credenciales no existen y DEBUG=True,

@@ -7,23 +7,27 @@
     --color-primary: #2d7d46;      /* Verde profesional */
     --color-dark: #1a1a1a;
     --color-light: #f8f9fa;
+    --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
-/* Hero */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
+}
+
+/* Hero Moderno con Background Image Placeholder */
 .hero-section {
-    background: linear-gradient(
-        135deg,
-        #1a1a1a 0%,
-        #2d7d46 50%,
-        #1a1a1a 100%
-    );
+    background-image: url('https://images.unsplash.com/photo-1599423668383-7c58852a382e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     width: 100vw;
     position: relative;
     left: 50%;
     right: 50%;
     margin-left: -50vw;
     margin-right: -50vw;
-    min-height: 100vh;
+    min-height: 85vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -32,10 +36,11 @@
     overflow: hidden;
 }
 
-/* mantener body neutro para que las secciones siguientes queden claras */
-body, html {
-    background: #fff;
-    overflow-x: hidden;
+.hero-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.85) 0%, rgba(45, 125, 70, 0.75) 100%);
+    z-index: 1;
 }
 
 /* eliminar línea blanca visible entre hero y productos */
@@ -44,20 +49,26 @@ body, html {
     box-shadow: inset 0 -8px 18px rgba(0, 0, 0, 0.5);
 }
 
-.hero-section h1 {
-    font-size: 3rem;
+.hero-section .hero-title {
     font-weight: 800;
-    margin-bottom: 1rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-    animation: slideInLeft 1s ease-out;
+    text-shadow: 2px 4px 12px rgba(0,0,0,0.5);
+    animation: slideInBottom 1s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.hero-section p {
+.hero-section .hero-subtitle {
     font-size: 1.25rem;
-    opacity: 0.9;
-    margin-bottom: 2rem;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
-    animation: slideInRight 1s ease-out 0.5s both;
+    font-weight: 300;
+    max-width: 600px;
+    margin: 0 auto;
+    text-shadow: 1px 2px 4px rgba(0,0,0,0.5);
+    animation: slideInBottom 1s cubic-bezier(0.25, 1, 0.5, 1) 0.3s both;
+}
+
+.text-highlight {
+    color: #4ade80;
+    background: linear-gradient(to right, #86efac, #4ade80);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .hero-section .container-fluid {
@@ -113,15 +124,52 @@ body, html {
     100% { transform: translateY(0) scale(1); }
 }
 
-@keyframes slideInLeft {
-    from { transform: translateX(-100px); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
+@keyframes slideInBottom {
+    0% { transform: translateY(40px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
 }
 
-@keyframes slideInRight {
-    from { transform: translateX(100px); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
+/* Componentes Nuevos (Beneficios) */
+.benefit-card {
+    border: 1px solid rgba(45,125,70,0.1);
+    position: relative;
+    transform: translateY(0);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), 
+                box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), 
+                border-color 0.4s ease, 
+                background-color 0.4s ease;
 }
+.benefit-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(45,125,70,0.08) !important;
+    border-color: rgba(45,125,70,0.3);
+}
+
+.benefit-card .icon-circle {
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), background-color 0.4s ease;
+}
+.benefit-card:hover .icon-circle {
+    transform: scale(1.1);
+    background-color: #2d7d46 !important;
+    color: #ffffff !important;
+}
+
+.tracking-wide { letter-spacing: 1px; }
+.tracking-wider { letter-spacing: 2px; }
+
+/* Botón de vidrio / glassmorphism */
+.glass-btn {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.glass-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+}
+
 
 /* Truncado de 2 líneas */
 .text-truncate-2 {
@@ -219,6 +267,111 @@ body, html {
     background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M0,50 Q25,25 50,50 T100,50 V100 H0 Z" fill="rgba(255,255,255,0.1)"/></svg>') no-repeat center;
     background-size: cover;
     pointer-events: none;
+}
+
+/* =========================================
+   BENTO GRID: SECTORES DE ATENCIÓN
+   ========================================= */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 240px;
+    gap: 24px;
+}
+
+.bento-item {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    padding: 24px;
+    background: #000;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transform: translateY(0);
+    transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.5s ease;
+}
+
+.bento-item:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 35px rgba(45,125,70,0.15);
+}
+
+.bento-item .bento-bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+    z-index: 1;
+    opacity: 0.8;
+}
+
+.bento-item .bento-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0) 100%);
+    z-index: 2;
+    transition: background 0.6s ease, opacity 0.6s ease;
+}
+
+.bento-item:hover .bento-bg {
+    transform: scale(1.08);
+}
+
+.bento-item:hover .bento-overlay {
+    background: linear-gradient(to top, rgba(16, 52, 28, 0.95) 0%, rgba(26,26,26,0.5) 75%, rgba(0,0,0,0.1) 100%);
+}
+
+.bento-content {
+    position: relative;
+    z-index: 3;
+    transform: translateY(8px);
+    transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.bento-item:hover .bento-content {
+    transform: translateY(0);
+}
+
+.bento-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    border: 1px solid rgba(255,255,255,0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Tamaños de la cuadrícula Bento */
+.bento-large {
+    grid-column: span 2;
+    grid-row: span 2;
+    padding: 36px;
+}
+
+.bento-item:nth-child(2) {
+    grid-column: span 2;
+}
+
+@media (max-width: 991.98px) {
+    .bento-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 250px;
+    }
+    .bento-large, .bento-item:nth-child(2) {
+        grid-column: span 1;
+        grid-row: span 1;
+        padding: 24px;
+    }
 }
 
 /* Animaciones para secciones */
@@ -352,62 +505,98 @@ body, html {
     box-shadow: 0 18px 36px rgba(0,0,0,0.12);
 }
 
+#faq .accordion-item {
+    border: 2px solid transparent;
+    border-radius: 16px;
+    margin-bottom: 16px;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(45, 125, 70, 0.06);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+#faq .accordion-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(45, 125, 70, 0.12);
+    border-color: rgba(45, 125, 70, 0.2);
+}
+
 #faq .accordion-button {
-    border-radius: 12px;
-    border: 2px solid #2d7d46;
+    border-radius: 16px;
+    border: none;
     color: #1a1a1a;
-    background: linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%);
+    background: transparent;
     font-weight: 600;
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(45,125,70,0.1);
-    position: relative;
-    padding: 16px 20px;
+    box-shadow: none;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Icon wrapper explicitly spaced to align multi-line text nicely */
+#faq .icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(45, 125, 70, 0.1);
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+#faq .faq-icon {
+    color: #2d7d46;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
 }
 
 #faq .accordion-button:hover {
-    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-    border-color: #1b5e20;
-    box-shadow: 0 6px 16px rgba(45,125,70,0.25);
-    transform: translateX(4px);
+    background: rgba(45, 125, 70, 0.03);
 }
 
 #faq .accordion-button::after {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%232d7d46' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
-    transition: transform 0.4s ease;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-left: auto;
 }
 
 #faq .accordion-button:not(.collapsed)::after {
     transform: rotate(180deg);
 }
 
+/* Expanded State */
 #faq .accordion-button:not(.collapsed) {
-    background: linear-gradient(135deg, #4caf50 0%, #2d7d46 100%);
-    color: #fff;
-    border-color: #1b5e20;
-    box-shadow: 0 8px 20px rgba(45,125,70,0.3);
+    background: transparent;
+    color: #1b5e20;
+    box-shadow: none;
 }
 
-#faq .accordion-item {
-    border: none;
-    margin-bottom: 12px;
-    transition: all 0.3s ease;
+#faq .accordion-button:not(.collapsed) .icon-wrapper {
+    background: #2d7d46;
 }
 
-#faq .accordion-item:hover {
-    transform: translateY(-2px);
+#faq .accordion-button:not(.collapsed) .faq-icon {
+    color: #ffffff;
+}
+
+#faq .accordion-item:has(.accordion-button:not(.collapsed)) {
+    border-color: #2d7d46;
+    background: #fdfdfd;
 }
 
 #faq .accordion-body {
-    background: linear-gradient(135deg, #f0fdf4 0%, #e8f5e9 100%);
-    border: 1px solid rgba(45,125,70,0.2);
-    border-top: 3px solid #2d7d46;
-    border-radius: 0 0 12px 12px;
-    color: #2d5a3d;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    padding: 20px;
-    font-weight: 500;
+    background: transparent;
+    border: none;
+    color: #4a5c50;
+    font-size: 1rem;
+    line-height: 1.7;
+    padding: 0 24px 24px 72px; /* aligns text with button text, accounting for icon + gap */
+    font-weight: 400;
 }
 
 #whatsapp-float {
